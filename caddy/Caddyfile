@@ -1,0 +1,19 @@
+<EXAMPLE.COM> {
+  root * /usr/share/caddy
+
+  @websockets {
+    header Connection *Upgrade*
+    header Upgrade    websocket
+  }
+
+  reverse_proxy @websockets xray:1234/ws
+
+  route {
+    reverse_proxy /ws xray:1234
+    file_server
+  }
+
+  log {
+    output stdout
+  }
+}
