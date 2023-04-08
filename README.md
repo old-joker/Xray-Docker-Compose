@@ -19,7 +19,7 @@ Follow these steps to setup Xray + Caddy (Web server) + CDN:
    1. Run cat /proc/sys/kernel/random/uuid to generate a UUID.
    1. Replace <YOUR-UUID> in xray/config/config.json with the generated UUID.
    1. Replace <EXAMPLE.COM> in caddy/Caddyfile with your domain/subdoamin.
-   1. Run docker-compose up -d.
+   1. Run docker compose up -d.
    1. Visit your domain/subdomain in your web browser. Wait until the homepage is loaded.
    1. (Optional) In your CDN, turn the proxy option on for the record.
    1. Run ./export.py to generate client configuration (link).
