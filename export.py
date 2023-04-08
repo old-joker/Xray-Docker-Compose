@@ -15,22 +15,45 @@ caddy = open(path.joinpath('caddy/Caddyfile'), 'r', encoding='utf-8').read()
 
 uuid = config['inbounds'][0]['settings']['clients'][0]['id']
 
-# Remove http:// or https:// prefix from domain
-domain = caddy[:caddy.find(' {')].lstrip("http://").lstrip("https://")
+domain = caddy[:caddy.find(' {')]
 
-j = json.dumps({
-    "v": "2", 
-    "ps": domain, 
-    "add": domain, 
-    "port": "443", 
-    "id": uuid, 
-    "aid": "0", 
-    "net": "ws", 
-    "type": "none",
-    "host": domain, 
-    "path": "/ws", 
-    "tls": "tls"
-})
+# Check if domain starts with "http://" or "https://"
+if domain.startswith("http://") or domain.startswith("https://"):
+    # Remove the prefix using lstrip() only if it is present
+    domain = domain.lstrip("http://").lstrip("https://")
+
+    j = {
+        "v": "2", 
+        "ps": domain, 
+        "add": domain, 
+        "port": "80", 
+        "id": uuid, 
+        "aid": "0", 
+        "net": "ws", 
+        "type": "none",
+        "host": domain, 
+        "path": "/ws"
+    }
+else : 
+    j = {
+        "v": "2", 
+        "ps": domain, 
+        "add": domain, 
+        "port": "443", 
+        "id": uuid, 
+        "aid": "0", 
+        "net": "ws", 
+        "type": "none",
+        "host": domain, 
+        "path": "/ws",
+        "tls": "tls"
+    }
+
+# Use json.dumps() to encode the JSON string
+json_str = json.dumps(j)
+
+# Use base64.b64encode() to encode the JSON string in base64
+b64_str = base64.b64encode(json_str.encode('ascii')).decode('ascii')
 
 # Use f-strings to format strings
-print(f"vmess://{base64.b64encode(j.encode('ascii')).decode('ascii')}")
+print(f"vmess://{b64_str}")
