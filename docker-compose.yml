@@ -1,0 +1,25 @@
+version: "3.7"
+
+services:
+  xray:
+    image: teddysun/xray:latest
+    restart: always
+    volumes:
+      - ./xray/config/:/etc/xray/
+      - ./xray/logs:/var/log/xray/
+    ports:
+      - "127.0.0.1:1234:1234"
+      - "127.0.0.1:1234:1234/udp"
+  caddy:
+    image: caddy:2.6.4-alpine
+    restart: always
+    ports:
+      - "80:80"
+      - "80:80/udp"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy/site/:/usr/share/caddy
+      - ./caddy/caddy_data/:/data
+      - ./caddy/caddy_config/:/config
