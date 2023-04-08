@@ -22,6 +22,7 @@ Follow these steps to setup Xray + Caddy (Web server) + CDN:
    1. Run docker-compose up -d.
    1. Visit your domain/subdomain in your web browser. Wait until the homepage is loaded.
    1. (Optional) In your CDN, turn the proxy option on for the record.
+   1. Run ./export.py to generate client configuration (link).
 
 Some CDN services don't offer unlimited traffic for free plans. Please check CDN Free Plans.
 
